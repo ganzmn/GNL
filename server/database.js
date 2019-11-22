@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 const initDB = () => {
 
-  mongoose.connect('', {
+  mongoose.connect('mongodb://@ds027748.mlab.com:27748/gnl', {
     auth: {
-      user: "",
-      password: ""
+      user: "jganser",
+      password: "12Oranges?"
     },
     useNewUrlParser: true,
     useUnifiedTopology: true
