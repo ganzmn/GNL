@@ -48,6 +48,11 @@
           label='Events'
           icon='public'
         />
+        <navigationItem
+          to='/login'
+          label='Login'
+          icon='person'
+        />
       </q-list>
     </q-drawer>
 
