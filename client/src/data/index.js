@@ -1,2 +1,5 @@
 export { default as Admin } from './Admin'
+export { default as Players } from './Players'
+export { default as Teams } from './Teams'
+export { default as Events } from './Events'
 export { default as Auth } from './Auth'
