@@ -15,7 +15,8 @@
           Quasar App
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div v-if="!authenticated" @click="login">Login</div>
+        <div v-if="authenticated">Welcome</div>
       </q-toolbar>
     </q-header>
 
@@ -73,7 +74,13 @@ export default {
   data () {
     return {
       leftDrawerOpen: false,
-      admin: true
+      admin: true,
+      authenticated: true
+    }
+  },
+  methods: {
+    login(){
+      this.$router.push('/login')
     }
   }
 }
