@@ -1,6 +1,11 @@
 <template>
   <q-page class="flex flex-center">
     <q-card class="q-pa-md">
+      <img
+        src="..\assets\iceHockey.jpg"
+        style="max-width: 300px;"
+        contain
+      />
       <div class="layout-view layout-padding">
         <q-field
           icon="mail"
@@ -22,15 +27,19 @@
           />
         </q-field>
 
-        <div class="q-pa-md">
-          <q-btn
-            color="primary"
-            @click="submit()"
-          >Login</q-btn>
-          <q-btn
-            color="secondary"
-            v-go-back=" '/' "
-          >Cancel</q-btn>
+        <div class="flex flex-center">
+          <span class="q-pa-sm">
+            <q-btn
+              color="primary"
+              @click="submit()"
+            >Login</q-btn>
+          </span>
+          <span class="q-pa-sm">
+            <q-btn
+              color="secondary"
+              v-go-back=" '/' "
+            >Cancel</q-btn>
+          </span>
         </div>
       </div>
     </q-card>
