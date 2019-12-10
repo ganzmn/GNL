@@ -29,22 +29,6 @@
         :options="teamOptions"
         label="Primary Team"
       ></q-select>
-      <q-input
-        v-model="player.goals"
-        label="Goals"
-      ></q-input>
-      <q-input
-        v-model="player.assists"
-        label="Assists"
-      ></q-input>
-      <q-input
-        v-model="player.wins"
-        label="Wins"
-      ></q-input>
-      <q-input
-        v-model="player.losses"
-        label="Losses"
-      ></q-input>
       <q-btn @click="submitNewPlayer">Submit New Player</q-btn>
 
       <!-- player list with actions -->
@@ -230,6 +214,12 @@ export default {
         field: row => row.email,
         format: val => `${val}`,
         sortable: true
+      },
+      {
+        name: 'actions',
+        required: true,
+        label: 'Actions',
+        align: 'center'
       }],
 
       teamCols: [{
