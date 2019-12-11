@@ -39,6 +39,17 @@
         :filter="playerFilter"
         row-key="name"
       >
+       <q-td slot="body-cell-Actions" slot-scope="props" key="Actions" :props="props" style="text-align:center;" >
+                <q-btn-group>
+                    <q-btn v-for="action in Actions"
+                            :key="action.name"
+                            outline
+                            :icon="action.icon"
+                            @click="action.onClick(props.row)">
+                        <q-tooltip v-if="action.tooltip">{{ action.tooltip }}</q-tooltip>
+                    </q-btn>
+                </q-btn-group>
+        </q-td>
         <template v-slot:top-right>
           <q-input
             borderless
@@ -78,6 +89,17 @@
         :filter="teamFilter"
         row-key="name"
       >
+      <q-td slot="body-cell-teamActions" slot-scope="props" key="teamActions" :props="props" style="text-align:center;" >
+                <q-btn-group>
+                    <q-btn v-for="action in teamActions"
+                            :key="action.name"
+                            outline
+                            :icon="action.icon"
+                            @click="action.onClick(props.row)">
+                        <q-tooltip v-if="action.tooltip">{{ action.tooltip }}</q-tooltip>
+                    </q-btn>
+                </q-btn-group>
+        </q-td>
         <template v-slot:top-right>
           <q-input
             borderless
@@ -216,9 +238,9 @@ export default {
         sortable: true
       },
       {
-        name: 'actions',
-        required: true,
+        name: 'Actions',
         label: 'Actions',
+        field: 'Actions',
         align: 'center'
       }],
 
@@ -230,6 +252,12 @@ export default {
         field: row => row.name,
         format: val => `${val}`,
         sortable: true
+      },
+      {
+        name: 'teamActions',
+        label: 'Actions',
+        field: 'teamActions',
+        align: 'center'
       }],
 
       eventCols: [{
@@ -240,7 +268,52 @@ export default {
         field: row => row.name,
         format: val => `${val}`,
         sortable: true
-      }]
+      }],
+
+      Actions:[
+        {
+            name: "Edit",
+            include: true,
+            tooltip: "Edit",
+            showMenu: true,
+            icon: "edit",
+            onClick: function(row) {
+              // me.goToProjectUtilityAllowances(row);
+            }
+        },
+        {
+            name: "Delete",
+            include: true,
+            tooltip: "Delete",
+            showMenu: true,
+            icon: "delete",
+            onClick: function(row) {
+            // me.goToProjectUtilityAllowances(row);
+          }
+        }
+      ],
+      teamActions:[
+        {
+            name: "Edit",
+            include: true,
+            tooltip: "Edit",
+            showMenu: true,
+            icon: "edit",
+            onClick: function(row) {
+              // me.goToProjectUtilityAllowances(row);
+            }
+        },
+        {
+            name: "Delete",
+            include: true,
+            tooltip: "Delete",
+            showMenu: true,
+            icon: "delete",
+            onClick: function(row) {
+            // me.goToProjectUtilityAllowances(row);
+          }
+        }
+      ],
     }
   },
   methods: {
