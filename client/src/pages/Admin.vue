@@ -1,35 +1,53 @@
 <template>
   <q-page>
     <div class="q-pa-md">
-      <q-toolbar>
+
+      <!-- #################################################### Player section ####################################################-->
+      <q-toolbar class="bg-accent rounded-borders">
         <q-icon
           flat
           size='large'
-          color='primary'
-          name="map"
+          color='white'
+          name="person"
         />
-        <q-toolbar-title>Player Management</q-toolbar-title>
+        <q-toolbar-title class="text-white">Player Management</q-toolbar-title>
       </q-toolbar>
-      <!-- add player -->
-      <q-input
+      <!-- add player Popup-->
+      <q-dialog
+      v-model="addNewPlayer"
+      >
+      <q-card style="width: 700px; max-width: 80vw;">
+        <q-card-section>
+          <div class="text-h6">Add Player</div>
+        </q-card-section>
+
+        <q-card-section>
+          <q-input
         v-model="player.fName"
         label="First Name"
-      ></q-input>
-      <q-input
-        v-model="player.lName"
-        label="Last Name"
-      ></q-input>
-      <q-input
-        v-model="player.email"
-        label="email"
-        type="email"
-      ></q-input>
-      <q-select
-        v-model="player.primaryTeam"
-        :options="teamOptions"
-        label="Primary Team"
-      ></q-select>
-      <q-btn @click="submitNewPlayer">Submit New Player</q-btn>
+        ></q-input>
+        <q-input
+          v-model="player.lName"
+          label="Last Name"
+        ></q-input>
+        <q-input
+          v-model="player.email"
+          label="email"
+          type="email"
+        ></q-input>
+        <q-select
+          v-model="player.team"
+          :options="teamOptions"
+          label="Primary Team"
+        ></q-select>
+        </q-card-section>
+
+        <q-card-actions align="right" class="bg-white text-teal">
+          <q-btn class="q-pa-sm" flat @click="submitNewPlayer" v-close-popup>Submit New Player</q-btn>
+          <q-btn class="q-pa-sm" flat label="Cancel" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
 
       <!-- player list with actions -->
       <q-table
@@ -38,6 +56,7 @@
         :columns="playerCols"
         :filter="playerFilter"
         row-key="name"
+        class="q-ma-md"
       >
        <q-td slot="body-cell-Actions" slot-scope="props" key="Actions" :props="props" style="text-align:center;" >
                 <q-btn-group>
@@ -47,12 +66,21 @@
                             :icon="action.icon"
                             @click="action.onClick(props.row)">
                         <q-tooltip v-if="action.tooltip">{{ action.tooltip }}</q-tooltip>
+                        <q-popup-proxy v-if="action.proxy">
+                        <q-banner>
+                          <template v-slot:avatar>
+                            <q-icon name="mail" color="primary" />
+                          </template>
+                          Send sign-up invite?
+                          <q-btn color="positive" class="q-pa-sm q-ma-sm">Send</q-btn>
+                        </q-banner>
+                      </q-popup-proxy>
                     </q-btn>
                 </q-btn-group>
         </q-td>
         <template v-slot:top-right>
           <q-input
-            borderless
+            outlined
             dense
             debounce="300"
             v-model="playerFilter"
@@ -62,24 +90,44 @@
               <q-icon name="search"></q-icon>
             </template>
           </q-input>
+          <q-btn class="q-ma-md" outline label="Add Player" @click="addNewPlayer = true" />
         </template>
       </q-table>
-      <q-toolbar>
+
+      <!-- #################################################### Team section ####################################################-->
+      <q-toolbar class="bg-accent rounded-borders">
         <q-icon
           flat
           size='large'
-          color='primary'
+          color='white'
           name="map"
         />
-        <q-toolbar-title>Team Management</q-toolbar-title>
+        <q-toolbar-title class="text-white">Team Management</q-toolbar-title>
       </q-toolbar>
 
-      <!-- add team -->
-      <q-input
-        v-model="team.name"
-        label="Team Name"
-      ></q-input>
-      <q-btn @click="submitNewTeam">Submit New Team</q-btn>
+      <!-- add team popup -->
+
+      <q-dialog
+      v-model="addNewTeam"
+      >
+      <q-card style="width: 700px; max-width: 80vw;">
+        <q-card-section>
+          <div class="text-h6">Add Team</div>
+        </q-card-section>
+
+        <q-card-section>
+          <q-input
+          v-model="team.name"
+          label="Team Name"
+          ></q-input>
+        </q-card-section>
+
+        <q-card-actions align="right" class="bg-white text-teal">
+          <q-btn class="q-pa-sm" flat  @click="submitNewTeam" v-close-popup>Submit New Team</q-btn>
+          <q-btn class="q-pa-sm" flat label="Cancel" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
 
       <!-- team list with actions -->
       <q-table
@@ -88,6 +136,7 @@
         :columns="teamCols"
         :filter="teamFilter"
         row-key="name"
+        class="q-ma-md"
       >
       <q-td slot="body-cell-teamActions" slot-scope="props" key="teamActions" :props="props" style="text-align:center;" >
                 <q-btn-group>
@@ -102,7 +151,7 @@
         </q-td>
         <template v-slot:top-right>
           <q-input
-            borderless
+            outlined
             dense
             debounce="300"
             v-model="teamFilter"
@@ -112,24 +161,44 @@
               <q-icon name="search"></q-icon>
             </template>
           </q-input>
+          <q-btn class="q-ma-md" label="Add Team" outline @click="addNewTeam = true" />
         </template>
       </q-table>
 
-      <q-toolbar>
+      <!-- #################################################### Event section ####################################################-->
+      <q-toolbar class="bg-accent rounded-borders">
         <q-icon
           flat
           size='large'
-          color='primary'
+          color='white'
           name="map"
         />
-        <q-toolbar-title>Event Management</q-toolbar-title>
+        <q-toolbar-title class="text-white">Event Management</q-toolbar-title>
       </q-toolbar>
-      <!-- add event -->
-      <q-input
-        v-model="event.name"
-        label="Event Name"
-      ></q-input>
-      <q-btn @click="submitNewEvent">Submit New Event</q-btn>
+      <!-- add event popup -->
+
+      <q-dialog
+      v-model="addNewEvent"
+      >
+      <q-card style="width: 700px; max-width: 80vw;">
+        <q-card-section>
+          <div class="text-h6">Add Event</div>
+        </q-card-section>
+
+        <q-card-section>
+          <q-input
+            v-model="event.name"
+            label="Event Name"
+          ></q-input>
+        </q-card-section>
+
+        <q-card-actions align="right" class="bg-white text-teal">
+          <q-btn class="q-pa-sm" flat  @click="submitNewEvent" v-close-popup>Submit New Event</q-btn>
+          <q-btn class="q-pa-sm" flat label="Cancel" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
       <!-- event list with actions -->
       <q-table
         title="Events"
@@ -137,10 +206,22 @@
         :columns="eventCols"
         :filter="eventFilter"
         row-key="name"
+        class="q-ma-md"
       >
+      <q-td slot="body-cell-eventActions" slot-scope="props" key="eventActions" :props="props" style="text-align:center;" >
+                <q-btn-group>
+                    <q-btn v-for="action in eventActions"
+                            :key="action.name"
+                            outline
+                            :icon="action.icon"
+                            @click="action.onClick(props.row)">
+                        <q-tooltip v-if="action.tooltip">{{ action.tooltip }}</q-tooltip>
+                    </q-btn>
+                </q-btn-group>
+        </q-td>
         <template v-slot:top-right>
           <q-input
-            borderless
+            outlined
             dense
             debounce="300"
             v-model="eventFilter"
@@ -150,6 +231,7 @@
               <q-icon name="search"></q-icon>
             </template>
           </q-input>
+          <q-btn class="q-ma-md" label="Add Event" outline @click="addNewEvent = true" />
         </template>
       </q-table>
     </div>
@@ -172,6 +254,10 @@ export default {
         lName: null,
         email: null }],
 
+      addNewPlayer: false,
+      addNewTeam: false,
+      addNewEvent: false,
+
       team: [{
         name: null
       }],
@@ -184,25 +270,27 @@ export default {
         id: 1,
         fName: 'Jake',
         lName: 'Ganser',
-        email: 'jake.ganser@gmail.com'
+        email: 'jake.ganser@gmail.com',
+        team: 'Boots & Hoes'
       },
       {
         id: 2,
         fName: 'Joe',
         lName: 'Ganser',
-        email: 'jganser@notGmail.com'
+        email: 'jganser@notGmail.com',
+        team: 'Boots & Hoes'
       }],
 
       teamList: [{
         id: 1,
-        name: 'Boots and Hoes'
+        name: 'Boots & Hoes'
       },
       {
         id: 2,
         name: 'Silver Bullets' }
       ],
 
-      teamOptions: ['Boots and Hoes', 'Silver Bullets'],
+      teamOptions: ['Boots & Hoes', 'Silver Bullets'],
 
       eventList: [{
         name: 'Beers & Boots Bowl I'
@@ -238,6 +326,15 @@ export default {
         sortable: true
       },
       {
+        name: 'team',
+        required: true,
+        label: 'Primary Team',
+        align: 'left',
+        field: row => row.team,
+        format: val => `${val}`,
+        sortable: true
+      },
+      {
         name: 'Actions',
         label: 'Actions',
         field: 'Actions',
@@ -268,9 +365,39 @@ export default {
         field: row => row.name,
         format: val => `${val}`,
         sortable: true
+      },
+      {
+        name: 'eventActions',
+        label: 'Actions',
+        field: 'eventActions',
+        align: 'center'
       }],
 
       Actions:[
+        {
+            name: "Edit",
+            include: true,
+            tooltip: "Edit",
+            showMenu: true,
+            icon: "edit",
+            onClick: function(row) {
+              // me.goToProjectUtilityAllowances(row);
+            }
+        },
+        {
+            name: "Invite",
+            include: true,
+            tooltip: "Send Invite",
+            label: "Send Invite",
+            showMenu: true,
+            icon: "mail",
+            proxy: true,
+            onClick: function(row) {
+            // me.goToProjectUtilityAllowances(row);
+          }
+        }
+      ],
+      teamActions:[
         {
             name: "Edit",
             include: true,
@@ -292,7 +419,7 @@ export default {
           }
         }
       ],
-      teamActions:[
+      eventActions:[
         {
             name: "Edit",
             include: true,
