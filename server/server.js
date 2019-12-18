@@ -1,5 +1,5 @@
 const Koa = require('./node_modules/koa');
-
+const cors = require('@koa/cors');
 const mount = require('./node_modules/koa-mount');
 const graphqlHTTP = require('./node_modules/koa-graphql');
 const schema = require('./graphql/schema');
@@ -10,7 +10,7 @@ initDB();
 const app = new Koa();
 
 const PORT = process.env.PORT || 3000;
-
+app.use(cors());
 
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);

@@ -7,6 +7,7 @@ const Schema = mongoose.Schema;
 */
 
 const PlayerSchema = new Schema({
+  userId: String,
   fName: String,
   lName: String,
   nName: String

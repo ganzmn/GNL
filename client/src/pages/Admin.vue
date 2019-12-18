@@ -441,12 +441,17 @@ export default {
           }
         }
       ],
+      user:{
+        email: "jake.ganser@gmail.com",
+        pw: "password",
+        roleId: "1"
+      }
     }
   },
   methods: {
     submitNewPlayer () {
-      // data.Admin.AddPlayer(this.player)
-      this.playerList.push(this.player)
+      data.Auth.AddUser(this.user)
+      // this.playerList.push(this.player)
     },
     submitNewTeam () {
       // data.Admin.AddPlayer(this.player)
