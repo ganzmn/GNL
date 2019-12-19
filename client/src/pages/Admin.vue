@@ -252,7 +252,8 @@ export default {
       player: [{
         fName: null,
         lName: null,
-        email: null }],
+        email: null,
+        team: null }],
 
       addNewPlayer: false,
       addNewTeam: false,
@@ -290,7 +291,7 @@ export default {
         name: 'Silver Bullets' }
       ],
 
-      teamOptions: ['Boots & Hoes', 'Silver Bullets'],
+      teamOptions: [{label: 'Boots & Hoes', value: '1'}, {label: 'Silver Bullets', value: '2'}],
 
       eventList: [{
         name: 'Beers & Boots Bowl I'
@@ -441,18 +442,22 @@ export default {
           }
         }
       ],
-      user:{
-        email: "jake.ganser@gmail.com",
-        pw: "password",
-        roleId: "1"
-      }
     }
   },
   methods: {
     submitNewPlayer () {
-      data.Auth.AddUser(this.user)
-      // this.playerList.push(this.player)
+      let me = this;
+      console.log(this.player)
+      data.Auth.AddUser(this.player)
+        .then(function(response) {
+          console.log("FE:", response)
+          me.playerList.push(me.player)
+        })
+        .catch(function (ex) {
+            console.log("error:", ex)
+        });
     },
+
     submitNewTeam () {
       // data.Admin.AddPlayer(this.player)
       this.teamList.push(this.team)

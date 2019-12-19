@@ -8,7 +8,8 @@ const PlayerType = new GraphQLObjectType({
     id: { type: GraphQLString },
     fName: { type: GraphQLString },
     lName: { type: GraphQLString },
-    nName: { type: GraphQLString }
+    teamId: { type: GraphQLString },
+    userId: { type: GraphQLString }
   })
 });
 

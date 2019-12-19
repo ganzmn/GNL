@@ -8,13 +8,15 @@ module.exports = {
       args: {
         fName: { type: GraphQLString },
         lName: { type: GraphQLString },
-        nName: { type: GraphQLString }
+        teamId: { type: GraphQLString },
+        userId: { type: GraphQLString },
       },
       resolve(parent, args) {
         const newPlayer = new Player({
           fName: args.fName,
           lName: args.lName,
-          nName: args.nName
+          teamId: args.teamId,
+          userId: args.userId
         })
 
         return newPlayer.save();

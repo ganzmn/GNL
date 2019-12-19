@@ -10,7 +10,17 @@ initDB();
 const app = new Koa();
 
 const PORT = process.env.PORT || 3000;
-app.use(cors());
+
+const whitelist = ['http://localhost:8080'];
+
+function checkOriginAgainstWhitelist(ctx) {
+    const requestOrigin = ctx.accept.headers.origin;
+    if (!whitelist.includes(requestOrigin)) {
+        return ctx.throw(`${requestOrigin} is not a valid origin`);
+    }
+    return requestOrigin;
+ }
+app.use(cors({ origin: checkOriginAgainstWhitelist }));
 
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);
@@ -24,3 +34,4 @@ app.use(mount('/graphql', graphqlHTTP({
 app.on('error', err => {
   log.error('server error', err)
 });
+
