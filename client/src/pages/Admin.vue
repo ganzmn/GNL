@@ -331,7 +331,7 @@ export default {
         required: true,
         label: 'Primary Team',
         align: 'left',
-        field: row => row.team,
+        field: row =>  (typeof row.team) == "string" ? row.team : row.team.label,
         format: val => `${val}`,
         sortable: true
       },
@@ -451,7 +451,8 @@ export default {
       data.Auth.AddUser(this.player)
         .then(function(response) {
           console.log("FE:", response)
-          me.playerList.push(me.player)
+
+          //refresh playerlist instead of playerlist push
         })
         .catch(function (ex) {
             console.log("error:", ex)

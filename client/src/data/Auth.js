@@ -18,7 +18,7 @@ class Auth {
         }
       }
       `
-      return apiClient.post('/addUser', {
+      apiClient.post('/addUser', {
       query: ADD_USER,
       variables: {
         email: user.email,
@@ -38,6 +38,7 @@ class Auth {
         }
       }
       `
+      console.log(user.team)
       return apiClient.post('/addPlayer', {
         query: ADD_PLAYER,
         variables: {

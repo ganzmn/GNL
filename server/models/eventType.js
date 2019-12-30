@@ -6,11 +6,9 @@ const Schema = mongoose.Schema;
   an ID by default to all schemas
 */
 
-const PlayerSchema = new Schema({
-  userId: String,
-  fName: String,
-  lName: String,
-  teamId: String
+const EventTypeSchema = new Schema({
+  name: String,
+  frequency: String
 });
 
-module.exports = mongoose.model('Player', PlayerSchema);
+module.exports = mongoose.model('EventType', EventTypeSchema);
