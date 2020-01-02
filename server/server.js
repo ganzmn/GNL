@@ -11,7 +11,7 @@ const app = new Koa();
 
 const PORT = process.env.PORT || 3000;
 
-const whitelist = ['http://localhost:8080'];
+const whitelist = ['http://localhost:8080', 'http://localhost:3000'];
 
 function checkOriginAgainstWhitelist(ctx) {
     const requestOrigin = ctx.accept.headers.origin;

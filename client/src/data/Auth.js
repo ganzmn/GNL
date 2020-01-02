@@ -53,7 +53,7 @@ class Auth {
       console.log(error);
     });
   }
-  
+
   async Login (user) {
     return apiClient.post('/login', {
       email: user.email,

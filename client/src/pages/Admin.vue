@@ -55,7 +55,7 @@
         :data="playerList"
         :columns="playerCols"
         :filter="playerFilter"
-        row-key="name"
+        row-key="id"
         class="q-ma-md"
       >
        <q-td slot="body-cell-Actions" slot-scope="props" key="Actions" :props="props" style="text-align:center;" >
@@ -444,7 +444,32 @@ export default {
       ],
     }
   },
+  mounted(){
+    this.getAllPlayers();
+  },
   methods: {
+    getAllPlayers () {
+      let me = this;
+      data.Players.GetAllPlayers()
+      .then(function (response) {
+          console.log(response.data.data.queryAllPlayers)
+          me.playerList = response.data.data.queryAllPlayers.map(
+            item => ({
+              fName: item.fName,
+              lName: item.lName,
+              id: item.id,
+              userId: "item.userId",
+              teamId: "item.teamId",
+              team: "item.teamId",
+              email: "na"
+            }))
+          console.log(listPlay)
+      })
+      .catch(function (ex) {
+          me.errorMessage = ex;
+      });      
+    },
+
     submitNewPlayer () {
       let me = this;
       console.log(this.player)
