@@ -55,11 +55,58 @@ class Auth {
   }
 
   async Login (user) {
-    return apiClient.post('/login', {
-      email: user.email,
-      pw: player.pw
+    if(!this.UserExists(user.email))
+      return false;
+
+    return apiClient({
+      method: "POST",
+      url: "/loginUser",
+      data: {
+        query: `
+          {
+            loginUser ($email:String!, $pw:String!) {
+              loginUser (email:$email, pw:$pw){
+                id
+              }
+            }
+          }
+        `,
+        variables: {
+          email: user.email,
+          pw: user.pw
+        }
+      }
     })
   }
+
+  async UserExists (email) {
+    console.log(email)
+    var result = await apiClient({
+        method: "POST",
+        url: "/queryUserByUsername",
+        data: {
+            query: `
+                {
+                    queryUserByUsername (email:$email){
+                        email,
+                        id
+                    }                 
+                }               
+            `,
+            variables: {
+              email: email
+            }
+        }
+    });
+    if(result == null || result.email == null)
+      return false;
+    else
+      return true;
+
+  } catch (error) {
+      console.error(error);
+  }
+
 }
 
 export default new Auth()

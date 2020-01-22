@@ -8,6 +8,7 @@ const queryPlayerById = require('./queryPlayerById');
 const User = require('../../models/user');
 const queryAllUsers = require('./queryAllUsers');
 const queryUserById = require('./queryUserById');
+const queryUserByUsername = require('./queryUserByUsername');
 
 const Team = require('../../models/team');
 const queryAllTeams = require('./queryAllTeams');
@@ -26,6 +27,7 @@ const RootQuery = new GraphQLObjectType({
     queryAllPlayers,
     queryAllUsers,
     queryUserById,
+    queryUserByUsername,
     queryAllTeams,
     queryTeamById,
     queryAllEvents,

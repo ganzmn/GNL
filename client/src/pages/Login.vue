@@ -20,7 +20,7 @@
         </q-field>
         <q-field icon="vpn_key">
           <q-input
-            v-model="credentials.password"
+            v-model="credentials.pw"
             type="password"
             placeholder="Your password"
             class="full-width"
@@ -54,7 +54,7 @@ export default {
     return {
       credentials: {
         email: '',
-        password: ''
+        pw: ''
       }
     }
   },
@@ -70,7 +70,7 @@ export default {
 
   methods: {
     submit () {
-      data.Auth.login(this.credentials, 'profile')
+      data.Auth.Login(this.credentials)
     }
   }
 }
