@@ -2,6 +2,8 @@
 const { GraphQLObjectType, GraphQLString } = require('graphql');
 const userGraphQLType =  require('./../types/userType');
 const User = require('./../../models/user');
+const crypt = require('./enc')
+
 
 module.exports = {
   type: userGraphQLType,
@@ -16,7 +18,8 @@ module.exports = {
           pw: args.pw,
           roleId: args.roleId
         })
+        var user = newUser.save();
 
-        return newUser.save();
+        let token = crypt.getJWT(user.id)
   }
 };

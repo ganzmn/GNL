@@ -55,58 +55,54 @@ class Auth {
   }
 
   async Login (user) {
-    if(!this.UserExists(user.email))
-      return false;
-
-    return apiClient({
-      method: "POST",
-      url: "/loginUser",
-      data: {
-        query: `
-          {
-            loginUser ($email:String!, $pw:String!) {
-              loginUser (email:$email, pw:$pw){
-                id
+    await this.UserExists(user.email).then(result => {
+      if(result.data.data.queryUserByUsername.length <= 0)
+        return false;
+      else{
+          console.log(result)
+          apiClient({
+          method: "POST",
+          url: "/loginUser",
+          data: {
+            query: `
+              {
+                loginUser (email:`+'"'+user.email+'"'+`, pw:`+'"'+user.pw+'"'+`){
+                  id
+                }              
               }
+            `,
+            variables: {
+              email: user.email,
+              pw: user.pw
             }
           }
-        `,
-        variables: {
-          email: user.email,
-          pw: user.pw
-        }
+        }).then(result => {return result})
       }
-    })
+    })   
   }
 
   async UserExists (email) {
     console.log(email)
-    var result = await apiClient({
+    return await apiClient({
         method: "POST",
         url: "/queryUserByUsername",
         data: {
             query: `
                 {
-                    queryUserByUsername (email:$email){
-                        email,
-                        id
-                    }                 
+                    queryUserByUsername (email:`+'"'+email+'"'+`){
+                      email
+                      id
+                  
+                  }                                  
+                
                 }               
             `,
             variables: {
               email: email
             }
         }
-    });
-    if(result == null || result.email == null)
-      return false;
-    else
-      return true;
-
-  } catch (error) {
-      console.error(error);
+    })  
   }
-
 }
 
 export default new Auth()

@@ -8,7 +8,7 @@ module.exports = {
   args: { email: { type: GraphQLString },
             pw: { type: GraphQLString }    
     },
-    resolve(parent, args) {
-    return User.find({email: args.email, pw: args.pw})
+  resolve:(root, args, context, info) => {
+    return User.find({email: args.email, pw: args.pw}).exec();  
   }
 }
